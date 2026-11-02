@@ -7,28 +7,27 @@ on:
   workflow_dispatch:         # 也支持在 Actions 页手动点按钮触发
 
 jobs:
-  build-and-publish:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
-      - name: 拉取代码
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 安装 Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.12"
 
-      - name: 安装构建工具
+      - name: Install build tool
         run: |
-          python -m pip install --upgrade pip
-          pip install build
+          python -m pip install --upgrade pip build
 
-      - name: 构建发行包（生成 dist/）
-        run: python -m build
+      - name: Build package
+        run: |
+          cd proj1-hellopy
+          python -m build
 
-      - name: 发布到 PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          name: dist
+          path: proj1-hellopy/dist
