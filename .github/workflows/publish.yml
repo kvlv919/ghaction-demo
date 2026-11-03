@@ -24,7 +24,7 @@ jobs:
 
       - name: Build package
         run: |
-          cd proj1-hellopy
+          cd proj1-yummypy
           rm -rf dist
           python -m build
 
@@ -33,5 +33,5 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          cd proj1-hellopy
+          cd proj1-yummmypy
           twine upload dist/*
